@@ -1,0 +1,31 @@
+<div [formGroup]="form">
+  <input type="text" formControlName="filtro">
+</div>
+<button class="btn btn-primary" [routerLink]="['/new']" routerLinkActive="router-link-active" >Create New Order</button>
+<table class="table">
+
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Codigo de orden</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Email</th>
+        <th scope="col">Productos</th>
+        <th scope="col">Fecha de compra</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+        @for(o of lstOrders; track $index){
+            <tr>
+                <th scope="row">{{$index +1}}</th>
+                <td>{{o.orderCode}}</td>
+                <td>{{o.customerName}}</td>
+                <td>{{o.email}}</td>
+                <td>{{o.products.length}}  items</td>
+                <td>{{o.timestamp | date: "dd:MM:yyyy"}}</td>
+                <td>${{o.total}}</td>
+            </tr>
+        }
+    </tbody>
+  </table>

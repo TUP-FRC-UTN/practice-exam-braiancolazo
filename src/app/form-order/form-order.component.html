@@ -1,0 +1,93 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" formControlName="nombre">
+        @if (form.controls["nombre"]; as nombre) {
+          @if (nombre.touched && nombre.invalid) {
+            @if(form.controls['nombre'].errors?.['required']){
+              <div class="text-danger">Nombre obligatorio</div>
+            }
+            @if(form.controls['nombre'].errors?.['minLength']){
+              <div class="text-danger">Nombre debe ser mayor a 3 caracteres</div>
+            }
+            
+            
+            
+            
+          }
+        }
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input formControlName="email" type="text" class="form-control" id="email">
+        @if (form.controls["email"]; as email) {
+          @if(email.touched && email.invalid){
+            @if(form.controls['email'].errors?.['required']){
+              <div class="text-danger" style="color: red;">email obligatorio</div>
+            }
+            @if(form.controls['nombre'].errors?.['email']){
+              <span style="color: red;">Formato de email incorrecto</span>
+            }
+          }   
+        }
+        <div class="row" formArrayName="productos">
+          @for (item of productos.controls; track $index) {
+            <div class="col-6">
+              <div [formGroupName]="$index">
+               
+            
+              </div>
+            </div>
+          }
+        </div>
+        
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Productos</h5>
+                    <button class="btn btn-primary" type="button" (click)="onNewProduct()">+</button>
+                </div>
+                <div class="row" formArrayName="productos">
+                    @for (item of productos.controls; track $index) {   
+                        <div [formGroupName]="$index">
+                          <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <label for="product1">Producto</label>
+                                    <select name="" id="" formControlName="producto" class="form-control">
+                                        <option value="" disabled>selected</option>
+                                        @for (p of lstProduct; track $index) {
+                                          <option [ngValue]="p">{{p.name}}</option>
+                                        }
+                                      </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="cantidad" class="form-label">cantidad</label>
+                                    <input formControlName="cantidad" type="number" class="form-control" id="cantidad">
+                                  </div>
+                                  <div class="col-md-2">
+                                      <label for="precio" class="form-label">precio</label>
+                                      <input formControlName="precio" type="number" class="form-control" id="precio">
+                                  </div>
+                                  <div class="col-md-2">
+                                      <label for="stock" class="form-label">stock</label>
+                                      <input formControlName="stock" type="number" class="form-control" id="stock">
+                                  </div>
+                                <div class="col-md-1">
+                                    <label>&nbsp;</label>
+                                    <button  type="button" class="btn btn-danger btn-block" (click)="onDeleteProduct($index)">X</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>  
+                    }
+                </div>
+            </div>
+        </div>       
+      </div>
+      <button class="btn btn-primary" type="submit">
+        Create order
+      </button>
+
+      <p>{{form.value |json}}</p>
+</form>
